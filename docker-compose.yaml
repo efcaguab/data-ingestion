@@ -6,4 +6,5 @@ services:
       - "8787:8787"
     volumes:
       - .:/home/rstudio/data-ingestion
+    environment: 
       DISABLE_AUTH: "true"
