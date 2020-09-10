@@ -3,6 +3,7 @@ auth.yaml
 ## R studio
 .Rhistory
 .RData
+.Rproj.user
 
 ## OS X
 .DS_Store
