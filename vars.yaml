@@ -1,0 +1,11 @@
+datasets:
+  -
+    source_type: kobo 
+    name: catch_timor
+    url: "http://kobo.humanitarianresponse.info/"
+    path: 
+      - api
+      - v2
+      - assets
+      - aaztUDtRzb9SpSV7i9iptb # survey uid
+      - data
