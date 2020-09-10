@@ -2,12 +2,10 @@
 
 Peskas is an advanced intelligence platform for artisanal fisheries. To provide reports and actionable insights it uses data from multiple sources. 
 
-Disaggregated fisheries data is confidential and securely held into Peskas data wharehouse. 
-
-This repository contains:
+Disaggregated fisheries data is confidential and securely held into Peskas data wharehouse. This repository contains:
 
 * Code to securely ingest data into the Peskas data wharehouse. Composed primarily by a series of Google Storage Buckets (cloud based object storage) and BigQuery tables (databases optimised for analytics).
-* Scripts to deploy the ingestion code into serverless containers. The containers run on Google Cloud Runner
+* Scripts to deploy the ingestion code into serverless containers. The containers are built (and code executed) using Google Cloud Run. 
 
 ## Support & Contributing
 
