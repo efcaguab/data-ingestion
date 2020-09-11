@@ -1,0 +1,32 @@
+datasets:
+  -
+    interface: api
+    source_agent: kobo
+    type: json
+    name: catch_timor_unstructured
+    url: "https://kobo.humanitarianresponse.info/"
+    config:
+      headers:
+        Authorization: "`r Sys.getenv('KOBO_HUMANITARIAN_TOKEN')`"
+    path: 
+      - api
+      - v2
+      - assets
+      - aaztUDtRzb9SpSV7i9iptb # survey uid
+      - data
+  - 
+    interface: api
+    source_agent: kobo
+    type: csv
+    name: catch_timor_structured
+    url: "https://kc.humanitarianresponse.info/"
+    config:
+      headers:
+        Authorization: "`r Sys.getenv('KOBO_HUMANITARIAN_TOKEN')`"
+    path: 
+      - api
+      - v1
+      - data
+      - 344563 # survey id
+    query:
+      format: csv
