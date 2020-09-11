@@ -2,7 +2,7 @@ datasets:
   -
     interface: api
     source_agent: kobo
-    type: json
+    data_format: json
     name: catch_timor_unstructured
     url: "https://kobo.humanitarianresponse.info/"
     config:
@@ -17,7 +17,7 @@ datasets:
   - 
     interface: api
     source_agent: kobo
-    type: csv
+    data_format: csv
     name: catch_timor_structured
     url: "https://kc.humanitarianresponse.info/"
     config:
@@ -30,3 +30,5 @@ datasets:
       - 344563 # survey id
     query:
       format: csv
+storage:
+  
