@@ -1,8 +1,12 @@
 testthat::context("params.yaml is structured correctly")
 
 params <- yaml::read_yaml(here::here("params.yaml"))
+
+# Formats and providers for which there is current support
 valid_interfaces <- c("api")
 valid_formats <- c("json", "csv")
+valid_providers <- c("google")
+valid_environments <- c("dev")
 
 test_that("parameter has datasets fields",{
   expect_true("datasets" %in% names(params))
@@ -38,4 +42,16 @@ test_that("dataset formats are valid", {
       purrr::map_lgl(
         params$datasets, 
         ~ .$data_format %in% valid_formats)))
+})
+
+test_that("environment is valid", {
+  expect_true(
+    params$environment %in% valid_environments
+  )
+})
+
+test_that("storage provider is valid", {
+  expect_true(
+    params$storage$provider %in% valid_providers
+  )
 })
