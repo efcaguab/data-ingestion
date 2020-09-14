@@ -6,10 +6,10 @@ purrr::walk(list.files("R", full.names = TRUE), source)
 
 # Read parameters
 params <- yaml::read_yaml(here::here("params.yaml")) 
-params <- parse_environment(params, Sys.getenv("ENVIRONMENT"))
+params <- parse_environment(params, Sys.getenv("ENV"))
 
 # Read datasets
 dataset_paths <- purrr::map(params$datasets, download_dataset)
 
 # Save datasets
-purrr::map(dataset_paths, write_dataset, storage_params)
+purrr::map(dataset_paths, write_dataset, params$storage)
