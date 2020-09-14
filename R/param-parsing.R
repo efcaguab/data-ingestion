@@ -23,17 +23,46 @@ eval_inline_r <- function(x){
   x
 }
 
-chuck_name <- function(x, y){
-  if(any(y %in% names(x))){
-    purrr::chuck(x, y)
-  } else {
-    x
-  }
-}
 
+#' Select variables based on the environment (dev/prod/...)
+#'
+#' Given a list, keep only the values for the specified environment.
+#'
+#' @param x a list (possibly of parameters)
+#' @param env a character with the environment to keep. If an empty string,
+#'   nothing is done
+#'
+#' @return a list with only the values for the specified environment
+#' @export
+#'
+#' @examples
+#' x <- list(var = list(dev = "abc", prod = "ABC"))
+#' parse_environment(x, "dev")
 parse_environment <- function(x, env = Sys.getenv("ENV")){
-  xx <- x
-  for (i in -purrr::vec_depth(x):0){
+  
+  assertthat::assert_that(is.character(env))
+  
+  # Keep only the item with the name y
+  chuck_name <- function(x, y){
+    if(any(y %in% names(x))){
+      purrr::chuck(x, y)
+    } else {
+      x
+    }
+  }
+  
+  # If the environment is an empty string (for example when the environment
+  # variable has not been specified), return the same object
+  if (env == ""){
+    return(x)
+  }
+  
+  # First if there are dev and prod at the base level
+  xx <- chuck_name(x, env)
+  
+  # Because the list can be nested we need to iterate across different levels.
+  # We start from the deepest level and work the way backwards to the root (0)
+  for (i in -purrr::vec_depth(xx):0){
     xx <- purrr::modify_depth(xx, i, chuck_name, y = env)
   }
   xx
