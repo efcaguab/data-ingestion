@@ -9,38 +9,45 @@ Disaggregated fisheries data is confidential and securely held into Peskas data 
 
 ## Ingestion parameters
 
-All the details needed to ingest data (ingestion parameters) are specified in `params.yaml`. This file contains details about the datasets that should be ingested and the storage service where they're saved. 
+All the details needed to ingest data (ingestion parameters) are specified in [`params.yaml`](params.yaml). This file contains details about the datasets that should be ingested and the storage service where they're saved. 
 
-Parameters can be dynamically evaluated using the inline R convention (`r foo()`) and support specifing parameters specifically for development or production environments. For example 
+Parameters can be dynamically evaluated using the inline R convention (`r foo()`) and support specifing parameters specifically for development or production environments. For example, with the following specification. The parameter "var" will take the "abc" value in development and "ABC" in production. 
 
 ```yaml
-storage:
-  bucket: 
-    dev: "peskas-storage-dev"
-    prod: "peskas-storage-prod"
+var: 
+  dev: "abc"
+  prod: "ABC"
 ```
 
 Datasets fields:
 
-* interface: The interface used to retrieve data. Supported values are: "api"
-* data_format: The format of the retrieved data. Supported values are: "json" and "csv"
-* name: Name of the data. This name will be used in the storage service. The file extension is inferred from the data_format
+Multiple datasets are allowed. Each of them should have the following fields:
+
+* *interface*: The interface used to retrieve data. Supported values are:
+    * *api*: Retrieves data using an HTTP GET RESTFUL request.
+* *data_format*: The format of the retrieved data. Supported values are: 
+    * *json* 
+    * *csv* 
+* *name*: Name of the data. This name will be used in the storage service. The file extension is inferred from the data_format
 * Other fields depend on the interface used. For *api*, it requires url, path, and other GET request details. 
 
 Storage fields:
 
-* provider: The provider of the storage service. Supported values are: "google"
+Only one storage service is allowed. It should have the following fields:
+
+* *provider*: The provider of the storage service. Supported values are: 
+    * *google*: Saves data Google Cloud Storage Service
 * Other fields dependning on the provider. For *google* it requires bucket and auth_file
 
 ##  Environment variables
 
 The script requires the following environment variables to be configured:
 
-**Required**
+Required:
 
 * `ENV`: Specifies whether the code should be built in a development (`EVN=dev`) or production (`ENV=prod`) environment. 
 
-**Optional**
+Optional:
 
 The following environment variables are only required if they are specified through the `params.yaml` file. 
 
