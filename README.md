@@ -4,8 +4,48 @@ Peskas is an advanced intelligence platform for artisanal fisheries. To provide 
 
 Disaggregated fisheries data is confidential and securely held into Peskas data wharehouse. This repository contains:
 
-* Code to securely ingest data into the Peskas data wharehouse. Composed primarily by a series of Google Storage Buckets (cloud based object storage) and BigQuery tables (databases optimised for analytics).
+* Code to securely ingest data into the Peskas data wharehouse. Composed primarily by a series of Google Storage Buckets (cloud based object storage).
 * Scripts to deploy the ingestion code into serverless containers. The containers are built (and code executed) using Google Cloud Run. 
+
+## Ingestion parameters
+
+All the details needed to ingest data (ingestion parameters) are specified in `params.yaml`. This file contains details about the datasets that should be ingested and the storage service where they're saved. 
+
+Parameters can be dynamically evaluated using the inline R convention (`r foo()`) and support specifing parameters specifically for development or production environments. For example 
+
+```yaml
+storage:
+  bucket: 
+    dev: "peskas-storage-dev"
+    prod: "peskas-storage-prod"
+```
+
+Datasets fields:
+
+* interface: The interface used to retrieve data. Supported values are: "api"
+* data_format: The format of the retrieved data. Supported values are: "json" and "csv"
+* name: Name of the data. This name will be used in the storage service. The file extension is inferred from the data_format
+* Other fields depend on the interface used. For *api*, it requires url, path, and other GET request details. 
+
+Storage fields:
+
+* provider: The provider of the storage service. Supported values are: "google"
+* Other fields dependning on the provider. For *google* it requires bucket and auth_file
+
+##  Environment variables
+
+The script requires the following environment variables to be configured:
+
+**Required**
+
+* `ENV`: Specifies whether the code should be built in a development (`EVN=dev`) or production (`ENV=prod`) environment. 
+
+**Optional**
+
+The following environment variables are only required if they are specified through the `params.yaml` file. 
+
+* `KOBO_HUMANITARIAN_TOKEN`: Token to connect to the KOBO API. Required if retrieving data from the Kobo Humanitarian server.
+* `GCS_AUTH_FILE`: Path to the Google Cloud Services .json authentication file. 
 
 ## Support & Contributing
 
