@@ -1,13 +1,15 @@
-# Batch script to ingest data to the Peskas infrastructure. See params.yaml for
-# the list of datasets and the interfaces to obtain them. Authentication details
-# (for example KOBO_HUMANITARIAN_TOKEN) need to be set up as environment
-# variables in order for the script to connect to the appropiate services
+# Batch script to ingest data to the Peskas infrastructure. See "params.yaml"
+# for the list of data sets and the interfaces to obtain them. 
+
+# Read R functions
+purrr::walk(list.files("R", full.names = TRUE), source)
 
 # Read parameters
-params <- yaml::read_yaml("params.yaml")
-
-#
+params <- yaml::read_yaml(here::here("params.yaml")) 
+params <- parse_environment(params, Sys.getenv("ENVIRONMENT"))
 
 # Read datasets
-datasets <- purrr::map(params$datasets, read_dataset)
+dataset_paths <- purrr::map(params$datasets, download_dataset)
 
+# Save datasets
+purrr::map(dataset_paths, write_dataset, storage_params)
