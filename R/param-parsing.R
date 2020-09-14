@@ -22,3 +22,19 @@ eval_inline_r <- function(x){
   }
   x
 }
+
+chuck_name <- function(x, y){
+  if(any(y %in% names(x))){
+    purrr::chuck(x, y)
+  } else {
+    x
+  }
+}
+
+parse_environment <- function(x, env = Sys.getenv("ENV")){
+  xx <- x
+  for (i in -purrr::vec_depth(x):0){
+    xx <- purrr::modify_depth(xx, i, chuck_name, y = env)
+  }
+  xx
+}
