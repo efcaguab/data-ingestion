@@ -1,3 +1,10 @@
+storage:
+  provider: "google"
+  bucket: 
+    dev: "peskas-storage-dev"
+    prod: "peskas-storage-prod"
+  auth_file: "`r Sys.getenv('GCS_AUTH_FILE')`"
+
 datasets:
   -
     interface: api
@@ -5,6 +12,7 @@ datasets:
     data_format: json
     name: catch_timor_unstructured
     url: "https://kobo.humanitarianresponse.info/"
+    encoding: "UTF-8"
     config:
       headers:
         Authorization: "`r Sys.getenv('KOBO_HUMANITARIAN_TOKEN')`"
@@ -30,5 +38,3 @@ datasets:
       - 344563 # survey id
     query:
       format: csv
-storage:
-  
