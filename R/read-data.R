@@ -1,3 +1,26 @@
+#' Download a dataset into a temporary file
+#'
+#' @param dataset_params list containing the parameters needed to download the
+#'   dataset
+#'
+#' @return a character vector specifying the path of the temporary file where
+#'   the data has been downloaded. Dataset parameters is added as "metadata"
+#'   atributes
+#' @export
+#'
+#' @details
+#' - _interface_: The interface used to retrieve data. Supported values are: 
+#'     - _api_: Retrieves data using an HTTP GET RESTFUL request. 
+#' - *data_format*: The format of the retrieved data. Supported values are: 
+#'     - _json_ 
+#'     - _csv_ 
+#' - _name_: Name of the data. This name will be used in the storage service. The
+#' file extension is inferred from the data_format 
+#' - Other fields depend on the interface used. For *api*, it requires url, path,
+#'  and other GET request details.
+#' @md
+#' 
+#' @examples
 download_dataset <- function(dataset_params){
   
   # Eval all R expressions in the data set parameters recursively
@@ -24,6 +47,14 @@ download_dataset <- function(dataset_params){
 }
 
 
+#' Request data through API request
+#' 
+#' @param dataset_info 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 request_through_api <- function(dataset_info){
   
   # Select the fields that we'll use in the API request
@@ -56,8 +87,6 @@ process_response_status <- function(this_response){
     this_response
   }
 }
-
-
 
 handle_kobo_error <- function(){
   
