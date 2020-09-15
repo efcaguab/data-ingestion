@@ -12,6 +12,14 @@ test_that("parameter has datasets fields",{
   expect_true("datasets" %in% names(params))
 })
 
+test_that("all datasets have name field", {
+  expect_true(
+    all(
+      purrr::map_lgl(
+        params$datasets, 
+        ~ "name" %in% names(.))))
+})
+
 test_that("all datasets have interface field", {
   expect_false(
     any(
@@ -26,6 +34,18 @@ test_that("dataset interfaces are valid", {
       purrr::map_lgl(
         params$datasets, 
         ~ .$interface %in% valid_interfaces)))
+})
+
+test_that("api datasets have valid url", {
+  api_datasets <- purrr::keep(params$datasets, ~ .$interface == "api")
+  expect_true(
+    all(
+      purrr::map_lgl(
+        api_datasets, 
+        ~ "url" %in% names(.)
+      )
+    )
+  )
 })
 
 test_that("all datasets have data format field", {
@@ -45,8 +65,9 @@ test_that("dataset formats are valid", {
 })
 
 test_that("environment is valid", {
+  skip_if(Sys.getenv('ENV') == "")
   expect_true(
-    params$environment %in% valid_environments
+    Sys.getenv('ENV') %in% valid_environments
   )
 })
 
