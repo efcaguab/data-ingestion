@@ -56,7 +56,7 @@ The following environment variables are only required if they are specified thro
 
 ## Deployment
 
-1. Ensure Storage API is enabled
+1. Cloud Build, Cloud Run, Container Registry, and Resource Manager APIs. Ensure Storage API is enabled
 2. Ensure Cloud Run API is enabled
 3. Enable Secret Manager API
 4. Create a Service Account for the data ingestion
