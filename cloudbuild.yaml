@@ -25,4 +25,13 @@ steps:
   args:
   - push
   - gcr.io/peskas/data-ingestion:$BUILD_ID
+# Run code
+- name: gcr.io/peskas/data-ingestion:$BUILD_ID
+  entrypoint: Rscript
+  args: 
+  - main.R
+  env:
+  - 'KOBO_TOKEN_FILE=kobo_token.txt'
+  - 'GCS_AUTH_FILE=gcs_secret.json'
+  - 'ENV=dev'
 images: ['gcr.io/peskas/data-ingestion:$BUILD_ID']
