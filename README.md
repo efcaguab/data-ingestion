@@ -54,6 +54,16 @@ The following environment variables are only required if they are specified thro
 * `KOBO_HUMANITARIAN_TOKEN`: Token to connect to the KOBO API. Required if retrieving data from the Kobo Humanitarian server.
 * `GCS_AUTH_FILE`: Path to the Google Cloud Services .json authentication file. 
 
+## Deployment
+
+1. Ensure Storage API is enabled
+2. Ensure Cloud Run API is enabled
+3. Enable Secret Manager API
+4. Create a Service Account for the data ingestion
+5. Provide storage access to the service account
+6. Provide secret access to the cloud run service account
+7. Make sure the storage buckets needed exist
+
 ## Support & Contributing
 
 For general questions about the Peskas Platform, contact [Alex Tilley](mailto:a.tilley@cgiar.org). For questions about Peskas' code and technical infrastructure, contact [Fernando Cagua](mailto:f.cagua@cgiar.org).
