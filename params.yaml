@@ -15,7 +15,7 @@ datasets:
     encoding: "UTF-8"
     config:
       headers:
-        Authorization: "`r Sys.getenv('KOBO_HUMANITARIAN_TOKEN')`"
+        Authorization: "`r readLines(Sys.getenv('KOBO_TOKEN_FILE'))`"
     path: 
       - api
       - v2
@@ -30,7 +30,7 @@ datasets:
     url: "https://kc.humanitarianresponse.info/"
     config:
       headers:
-        Authorization: "`r Sys.getenv('KOBO_HUMANITARIAN_TOKEN')`"
+        Authorization: "`r readlines(Sys.getenv('KOBO_TOKEN_FILE'))`"
     path: 
       - api
       - v1
