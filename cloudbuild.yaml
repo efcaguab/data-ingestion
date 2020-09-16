@@ -1,0 +1,28 @@
+steps:
+# Download authentication file for the data-ingestion service account
+- name: gcr.io/cloud-builders/gcloud
+  entrypoint: bash
+  args:
+  - -c
+  - gcloud secrets versions access latest --secret=data-ingestion-secret > gcs_secret.json   
+# Download token for accessing KOBO data
+- name: gcr.io/cloud-builders/gcloud
+  entrypoint: bash
+  args:
+  - -c
+  - gcloud secrets versions access latest --secret=alex-kobo-token > kobo_token.txt
+# Build the data-ingestion container
+- name: gcr.io/cloud-builders/docker
+  args:
+  - build
+  - -f
+  - Dockerfile
+  - -t
+  - gcr.io/peskas/data-ingestion:$BUILD_ID
+  - '.'
+# Push image to private container registry
+- name: gcr.io/cloud-builders/docker
+  args:
+  - push
+  - gcr.io/peskas/data-ingestion:$BUILD_ID
+images: ['gcr.io/peskas/data-ingestion:$BUILD_ID']
