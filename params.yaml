@@ -38,3 +38,21 @@ datasets:
       - 344563 # survey id
     query:
       format: csv
+  -
+    interface: api
+    source_agent: pelagic-data-systems
+    data_format: csv
+    name: "`r paste0('pelagic-data', '_', as.character(Sys.Date()-1))`"
+    url: "https://analytics.pelagicdata.com:443"
+    config:
+      headers: 
+        X-API-SECRET: "`r yaml::read_yaml(Sys.getenv('PELAGIC_SECRET_FILE'))$SECRET`"
+    path:
+      - api
+      - "`r yaml::read_yaml(Sys.getenv('PELAGIC_SECRET_FILE'))$API_KEY`"
+      - v1
+      - points
+      - "`r as.character(Sys.Date()-1)`"
+      - "`r as.character(Sys.Date())`"
+    query:
+      deviceInfo: true
