@@ -11,6 +11,12 @@ steps:
   args:
   - -c
   - gcloud secrets versions access latest --secret=alex-kobo-token > kobo_token.txt
+# Download token for accessing PELAGIC data
+- name: gcr.io/cloud-builders/gcloud
+  entrypoint: bash
+  args:
+  - -c
+  - gcloud secrets versions access latest --secret=pelagic-api-secret > pelagic_secret.yaml
 # Build the data-ingestion container
 - name: gcr.io/cloud-builders/docker
   args:
@@ -32,6 +38,7 @@ steps:
   - main.R
   env:
   - 'KOBO_TOKEN_FILE=kobo_token.txt'
+  - 'PELAGIC_SECRET_FILE=pelagic_secret.yaml'
   - 'GCS_AUTH_FILE=gcs_secret.json'
   - 'ENV=dev'
 images: ['gcr.io/peskas/data-ingestion:$BUILD_ID']
