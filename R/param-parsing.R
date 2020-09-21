@@ -23,7 +23,6 @@ eval_inline_r <- function(x){
   x
 }
 
-
 #' Select variables based on the environment (dev/prod/...)
 #'
 #' Given a list, keep only the values for the specified environment.
@@ -66,4 +65,18 @@ parse_environment <- function(x, env = Sys.getenv("ENV")){
     xx <- purrr::modify_depth(xx, i, chuck_name, y = env)
   }
   xx
+}
+
+#' Parse R expressions in a list
+#'
+#' Evaluates recursively R expressions of the type `r foo()` in a list by
+#' calling `eval_inline_r()`
+#'
+#' @param x A list 
+#'
+#' @return A list with evaluated R expressions
+#' @export
+#'
+parse_r <- function(x) {
+  rapply(x, f = eval_inline_r, how = "replace")
 }
