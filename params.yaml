@@ -11,6 +11,8 @@ datasets:
     source_agent: kobo
     data_format: json
     name: catch_timor_unstructured
+    ingestion:
+      type: all-data
     url: "https://kobo.humanitarianresponse.info/"
     encoding: "UTF-8"
     config:
@@ -27,6 +29,8 @@ datasets:
     source_agent: kobo
     data_format: csv
     name: catch_timor_structured
+    ingestion:
+      type: all-data
     url: "https://kc.humanitarianresponse.info/"
     config:
       headers:
@@ -42,7 +46,12 @@ datasets:
     interface: api
     source_agent: pelagic-data-systems
     data_format: csv
-    name: "`r paste0('pelagic-data', '_', as.character(Sys.Date()-1))`"
+    name: pelagic-data
+    ingestion:
+      type: new-data
+      name_append: "`r as.character(Sys.Date())`"
+      download_historical: true
+      start_date: "2018-02-08"
     url: "https://analytics.pelagicdata.com:443"
     config:
       headers: 
