@@ -11,9 +11,7 @@ params <- parse_r(params)
 
 # DAILY UPDATE ------------------------------------------------------------
 
-purrr::walk(.x = params$datasets, 
-            .f = ingest_data, 
-            storage_params = params$storage)
+purrr::walk(.x = params$datasets, .f = ingest_data)
 
 # HISTORICAL DATA ---------------------------------------------------------
 
@@ -27,8 +25,10 @@ historical_datasets <- purrr::keep(params$datasets,
                                    ~ .$ingestion$type == "new-data")
 
 # Given a historical dataset ingest previous updates that are not yet downloaded
-download_historical_dataset <- function(dataset_params, storage_params) {
+download_historical_dataset <- function(dataset_params) {
 
+  storage_params <- dataset_params$storage
+  
   # Identify all previous updates 
   hist_dates <- seq(from = as.Date(dataset_params$ingestion$start_date), 
                     to = Sys.Date()-1, by = 1)
@@ -45,11 +45,9 @@ download_historical_dataset <- function(dataset_params, storage_params) {
                               .f = create_new_date_params_pelagic, 
                               data_params = dataset_params)
     
-    purrr::walk(.x = hist_params, .f = ingest_data, storage_params)
+    purrr::walk(.x = hist_params, .f = ingest_data)
   }
 }
 
 # Download historical data if needed 
-purrr::walk(.x = historical_datasets, 
-            .f = download_historical_dataset, 
-            storage_params = params$storage)
+purrr::walk(.x = historical_datasets, .f = download_historical_dataset)

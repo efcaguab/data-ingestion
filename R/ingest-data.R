@@ -1,12 +1,11 @@
 #' Ingest data
 #'
 #' @param data_params List specifying parameters of data to be ingested
-#' @param storage_params List specifying parameters of cloud storage
 #'
 #' @return TRUE if ingestion was successful
 #' @export
 #'
-ingest_data <- function(data_params, storage_params){
+ingest_data <- function(data_params){
   
   if (data_params$interface == "api"){
     retrieved_data <- request_through_api(data_params)
@@ -15,7 +14,7 @@ ingest_data <- function(data_params, storage_params){
   }
   
   tempfile_path <- retrieved_to_tempfile(retrieved_data, data_params)
-  write_data(tempfile_path, storage_params)
+  write_data(tempfile_path)
 }
 
 #' Save retrieved data into a temporary file
