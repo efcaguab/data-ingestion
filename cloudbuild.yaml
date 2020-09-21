@@ -31,7 +31,7 @@ steps:
   args:
   - push
   - gcr.io/peskas/data-ingestion:$BUILD_ID
-# Run code
+# Ingest data
 - name: gcr.io/peskas/data-ingestion:$BUILD_ID
   entrypoint: Rscript
   args: 
