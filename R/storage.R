@@ -15,14 +15,14 @@ list_files_storage <- function(storage_params){
 #'
 #' @param data_path Character string. Path of the file to be written.
 #'   `data_params` must be specified in the "metadata" attribute
-#' @param storage_params List specifying parameters of cloud storage 
 #' @param ... Not implemented
 #'
 #' @export
 #'
-write_data <- function(data_path, storage_params, ...){
+write_data <- function(data_path, ...){
   
   dataset_params <- attr(data_path, "metadata", exact = TRUE)
+  storage_params <- dataset_params$storage
   
   if (storage_params$provider == "google") {
     write_dataset_google(data_path, storage_params, ...)
@@ -49,7 +49,8 @@ write_dataset_google <- function(data_path, storage_params, ...){
   
   googleCloudStorageR::gcs_upload(file = data_path, 
                                   bucket = storage_params$bucket, 
-                                  name = basename(data_path))
+                                  name = basename(data_path),
+                                  predefinedAcl = "default")
 }
 
 #' List files in Google Cloud storage

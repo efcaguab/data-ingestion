@@ -1,10 +1,3 @@
-storage:
-  provider: "google"
-  bucket: 
-    dev: "peskas-storage-dev"
-    prod: "peskas-storage-prod"
-  auth_file: "`r Sys.getenv('GCS_AUTH_FILE')`"
-
 datasets:
   -
     interface: api
@@ -24,6 +17,12 @@ datasets:
       - assets
       - aaztUDtRzb9SpSV7i9iptb # survey uid
       - data
+    storage:
+      provider: "google"
+      bucket: 
+        dev: "peskas-storage-dev"
+        prod: "timor"
+      auth_file: "`r Sys.getenv('GCS_AUTH_FILE')`"
   - 
     interface: api
     source_agent: kobo
@@ -42,6 +41,12 @@ datasets:
       - 344563 # survey id
     query:
       format: csv
+    storage:
+      provider: "google"
+      bucket: 
+        dev: "peskas-storage-dev"
+        prod: "timor"
+      auth_file: "`r Sys.getenv('GCS_AUTH_FILE')`"
   -
     interface: api
     source_agent: pelagic-data-systems
@@ -65,3 +70,9 @@ datasets:
       - "`r as.character(Sys.Date())`"
     query:
       deviceInfo: true
+    storage:
+      provider: "google"
+      bucket: 
+        dev: "peskas-storage-dev"
+        prod: "pelagic-data-systems"
+      auth_file: "`r Sys.getenv('GCS_AUTH_FILE')`"
