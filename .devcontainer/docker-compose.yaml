@@ -2,6 +2,8 @@ version: '3.3'
 services:
   rstudio:
     build: .
+    image: data-ingestion-dev-rstudio
+    container_name: data-ingestion-dev-rstudio
     ports:
       - "8787:8787"
     volumes:
