@@ -52,6 +52,7 @@ datasets:
     source_agent: pelagic-data-systems
     data_format: csv
     name: pelagic-data
+    overwrite: false
     ingestion:
       type: new-data
       name_append: "`r as.character(Sys.Date())`"

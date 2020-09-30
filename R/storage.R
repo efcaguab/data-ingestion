@@ -24,6 +24,16 @@ write_data <- function(data_path, ...){
   dataset_params <- attr(data_path, "metadata", exact = TRUE)
   storage_params <- dataset_params$storage
   
+  if (isFALSE(dataset_params$overwrite)){
+    file_name <- paste0(dataset_params$name, ".", dataset_params$data_format)
+    file_exists <- file_name %in% list_files_storage(storage_params)$name
+    if (isTRUE(file_exists)){
+     warning("Object already exists in the bucket and the overwrite parameter is FALSE. ",
+             "It has not been rewriten.") 
+      return(TRUE)
+    }
+  }
+  
   if (storage_params$provider == "google") {
     write_dataset_google(data_path, storage_params, ...)
   } else {
