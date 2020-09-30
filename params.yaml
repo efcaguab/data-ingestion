@@ -75,5 +75,5 @@ datasets:
       provider: "google"
       bucket: 
         dev: "peskas-storage-dev"
-        prod: "pelagic-data-systems"
+        prod: "pelagic-data-systems-raw"
       auth_file: "`r Sys.getenv('GCS_AUTH_FILE')`"
