@@ -1,5 +1,6 @@
 library(googleCloudStorageR)
 library(dplyr)
+library(progress)
 
 orig_bucket <- "pelagic-data-systems"
 dest_bucket <- "pelagic-data-systems-raw"
@@ -26,12 +27,16 @@ if (nrow(dest_objects) > 0){
   to_copy_objects <- orig_objects
 }
 
-slow_copy <- function(..., delay = 1){
+
+pb <- progress_bar$new(total = nrow(to_copy_objects))
+
+slow_copy <- function(..., delay = 3){
+  pb$tick()
   googleCloudStorageR::gcs_copy_object(...)
   Sys.sleep(delay)
 }
 
-purrr::walk(
+purrr::map(
   .x = to_copy_objects$name, 
   .f = ~ slow_copy(
     source_object = ., 
