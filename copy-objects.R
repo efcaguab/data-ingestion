@@ -1,9 +1,11 @@
 library(googleCloudStorageR)
+library(magrittr)
 
 orig_bucket <- "pelagic-data-systems"
 dest_bucket <- "pelagic-data-systems-raw"
-delete_files_dest <- TRUE
+delete_files_dest <- FALSE
 
+httr::set_config(httr::config(http_version = 0))
 gcs_auth(Sys.getenv("GCS_AUTH_FILE"))
 
 if (isTRUE(delete_files_dest)){
@@ -29,7 +31,11 @@ if (nrow(dest_objects) > 0){
 slow_copy <- function(..., delay = 3){
   a <- list(...)
   cat("Copying", a$source_object, "\n")
-  gcs_copy_object(...)
+  purrr::insistently(gcs_copy_object, 
+                     rate = purrr::rate_backoff(
+                       pause_cap = 60*5, 
+                       max_times = 10),
+                     quiet = F)(...)
   Sys.sleep(delay)
 }
 
